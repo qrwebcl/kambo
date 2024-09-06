@@ -25,7 +25,7 @@ const Index = () => {
   const handleCopyToClipboard = () => {
     const text = `Kambo Grow & Smart Shop
 Dirección: 123 Calle Principal, Ciudad, País
-Horarios: Lun - Sáb: 10:00 - 20:00
+Horarios: Lun - Sáb: 10:30 - 19:30, Dom: Cerrado
 Teléfono: +1 234 567 890
 Email: info@kambogrow.com`;
     navigator.clipboard.writeText(text).then(() => {
@@ -75,13 +75,15 @@ Email: info@kambogrow.com`;
           color: #232323;
           padding: 10px 20px;
           margin: 5px;
-          display: inline-block;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           border-radius: 25px;
           font-weight: bold;
           text-transform: uppercase;
-          background-color: #ffca28;
-          border: 2px solid #ffca28;
-          box-shadow: 0 0 15px rgba(255, 202, 40, 0.3);
+          background-color: #4CAF50;
+          border: 2px solid #4CAF50;
+          box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
           transition: all 0.2s ease;
           font-size: 0.8rem;
         }
@@ -89,12 +91,12 @@ Email: info@kambogrow.com`;
           width: 100%;
         }
         .store-button:hover, .social-button:hover {
-          background-color: #ffd54f;
-          box-shadow: 0 0 20px rgba(255, 202, 40, 0.5);
+          background-color: #45a049;
+          box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
         }
         .store-button:active, .social-button:active {
           transform: scale(0.98);
-          background-color: #ffca28;
+          background-color: #4CAF50;
         }
         #floating-logo {
           position: absolute;
@@ -135,7 +137,7 @@ Email: info@kambogrow.com`;
         <div className="text-center relative z-10 w-full max-w-md" style={{ animation: 'fadeIn 1.5s forwards' }}>
           <h1 className="text-2xl sm:text-4xl mb-6 sm:mb-8 font-bold text-shadow">Kambo Grow & Smart Shop 🐸</h1>
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <Button className="store-button w-full sm:w-48 bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f]" onClick={() => handleStoreSelect('main')}>
+            <Button className="store-button w-full sm:w-48 bg-[#4CAF50] text-[#232323] hover:bg-[#45a049]" onClick={() => handleStoreSelect('main')}>
               Explorar Tienda
             </Button>
           </div>
@@ -147,36 +149,36 @@ Email: info@kambogrow.com`;
             <h3 className="text-lg sm:text-xl mb-3 sm:mb-4 font-semibold">Información de Contacto</h3>
             <p className="text-xs sm:text-base whitespace-pre-line">
               Dirección: 123 Calle Principal, Ciudad, País<br />
-              Horarios: Lun - Sáb: 10:00 - 20:00<br />
+              Horarios: Lun - Sáb: 10:30 - 19:30, Dom: Cerrado<br />
               Teléfono: +1 234 567 890<br />
               Email: info@kambogrow.com
             </p>
-            <Button className="social-button mt-4 w-full text-xs sm:text-base bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f]" onClick={handleCopyToClipboard}>
+            <Button className="social-button mt-4 w-full text-xs sm:text-base bg-[#4CAF50] text-[#232323] hover:bg-[#45a049]" onClick={handleCopyToClipboard}>
               Copiar datos de contacto
             </Button>
           </div>
           <div className="flex flex-wrap justify-center items-center gap-2 mb-6">
             <Button 
-              className="social-button text-xs sm:text-base bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f]"
+              className="social-button text-xs sm:text-base bg-[#4CAF50] text-[#232323] hover:bg-[#45a049]"
               onClick={() => window.open('https://wa.link/ud24fn', '_blank')}
             >
               <Phone className="mr-2" /> WhatsApp
             </Button>
             <Button 
-              className="social-button text-xs sm:text-base bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f]"
-              onClick={() => window.open('https://instagram.com', '_blank')}
+              className="social-button text-xs sm:text-base bg-[#4CAF50] text-[#232323] hover:bg-[#45a049]"
+              onClick={() => window.open('https://www.instagram.com/kambogrow/', '_blank')}
             >
               <Instagram className="mr-2" /> Instagram 🐸
             </Button>
             <Button
-              className="social-button text-xs sm:text-base bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f]"
-              onClick={() => toast.info("Lun - Sáb: 10:00 - 20:00\nDomingo: Cerrado")}
+              className="social-button text-xs sm:text-base bg-[#4CAF50] text-[#232323] hover:bg-[#45a049]"
+              onClick={() => toast.info("Lun - Sáb: 10:30 - 19:30\nDomingo: Cerrado")}
             >
               <Clock className="mr-2" /> Horarios
             </Button>
             <Button
-              className="social-button text-xs sm:text-base bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f]"
-              onClick={() => window.open('https://maps.google.com', '_blank')}
+              className="social-button text-xs sm:text-base bg-[#4CAF50] text-[#232323] hover:bg-[#45a049]"
+              onClick={() => window.open('https://www.google.com/maps?client=opera-gx&hs=TwT&sca_esv=b3b81d1d30ec7baa&output=search&q=kambo+grow+shop+ubicación&source=lnms&fbs=AEQNm0CbCVgAZ5mWEJDg6aoPVcBgy3z6G8XHXm5Ah4uwilWjRJeyTIczQNFLgz4BekoSgG4R3EvpFPQySx_mlSkGosXzKPW74IKUGm4uFRYtXAdKcveLTkbZEWxoccbKczIixf_JENIYySqOJN3OdO5W224NpPgzE0sbSu77tk65G6QsVN19Sl9-S3fQR2rf18N-vCozZtQ4ZKotfmVOyQm11cU_PfYXow&entry=mc&ved=1t:200715&ictx=111', '_blank')}
             >
               <MapPin className="mr-2" /> Ubicación
             </Button>
@@ -185,7 +187,7 @@ Email: info@kambogrow.com`;
       )}
 
       <Button
-        className="absolute top-4 right-4 bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f] px-2 py-1 sm:px-4 sm:py-2 rounded-full transition-all z-20 text-xs sm:text-base"
+        className="absolute top-4 right-4 bg-[#4CAF50] text-[#232323] hover:bg-[#45a049] px-2 py-1 sm:px-4 sm:py-2 rounded-full transition-all z-20 text-xs sm:text-base"
         onClick={() => setSelectedStore(null)}
       >
         Volver al Inicio

@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { Instagram, MapPin, Clock, Phone } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import StarryBackground from '../components/StarryBackground';
+import FloatingLogo from '../components/FloatingLogo';
 
 const Index = () => {
   const [selectedStore, setSelectedStore] = useState(null);
-  const logoRef = useRef(null);
-  const canvasRef = useRef(null);
 
   useEffect(() => {
     document.body.style.backgroundColor = '#000000';
@@ -16,73 +16,6 @@ const Index = () => {
       document.body.style.backgroundColor = '';
       document.body.style.color = '';
       document.body.style.fontFamily = '';
-    };
-  }, []);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const stars = [];
-    for (let i = 0; i < 100; i++) {
-      stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 2,
-        speed: Math.random() * 3 + 1
-      });
-    }
-
-    const shootingStars = [];
-    const createShootingStar = () => {
-      shootingStars.push({
-        x: Math.random() * canvas.width,
-        y: 0,
-        length: Math.random() * 80 + 10,
-        speed: Math.random() * 10 + 5,
-        size: Math.random() * 2 + 1
-      });
-    };
-
-    setInterval(createShootingStar, 3000);
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-
-      stars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fill();
-        star.y += star.speed;
-        if (star.y > canvas.height) star.y = 0;
-      });
-
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-      shootingStars.forEach((star, index) => {
-        ctx.beginPath();
-        ctx.moveTo(star.x, star.y);
-        ctx.lineTo(star.x + star.length, star.y + star.length);
-        ctx.lineWidth = star.size;
-        ctx.stroke();
-        star.x += star.speed;
-        star.y += star.speed;
-        if (star.x > canvas.width || star.y > canvas.height) {
-          shootingStars.splice(index, 1);
-        }
-      });
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
@@ -101,39 +34,10 @@ Email: info@kambogrow.com`;
     });
   };
 
-  const [oscillationSpeed, setOscillationSpeed] = useState(1);
-
-  useEffect(() => {
-    const animateLogo = () => {
-      if (logoRef.current) {
-        const time = Date.now() * 0.001 * oscillationSpeed;
-        const yOffset = Math.sin(time) * 5;
-        logoRef.current.style.transform = `translate(-50%, -50%) translateY(${yOffset}px)`;
-      }
-      requestAnimationFrame(animateLogo);
-    };
-    const animationFrame = requestAnimationFrame(animateLogo);
-    return () => cancelAnimationFrame(animationFrame);
-  }, [oscillationSpeed]);
-
-  const handleLogoInteraction = (e) => {
-    if (!logoRef.current) return;
-    
-    const logo = logoRef.current;
-    const rect = logo.getBoundingClientRect();
-    const y = e.clientY - rect.top;
-    
-    const newSpeed = 1 + Math.abs((y / rect.height - 0.5) * 2);
-    setOscillationSpeed(newSpeed);
-  };
-
-  const resetLogoPosition = () => {
-    setOscillationSpeed(1);
-  };
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-4 py-8 bg-black text-white">
-      <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" style={{ zIndex: 0 }}></canvas>
+      <StarryBackground />
+      <FloatingLogo />
       <style jsx>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(20px); }
@@ -167,40 +71,13 @@ Email: info@kambogrow.com`;
           transform: scale(0.98);
           background-color: #4CAF50;
         }
-        #floating-logo {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 150px;
-          height: 150px;
-          background-image: url('https://ozeta.cl/wp-content/sabai/File/files/l_556ef36bb393009069eb500ba3087112.png');
-          background-size: contain;
-          background-position: center;
-          background-repeat: no-repeat;
-          opacity: 0.15;
-          transition: transform 0.3s ease-out;
-          cursor: pointer;
-          z-index: 1;
-        }
         @media (min-width: 640px) {
           .store-button, .social-button {
             font-size: 1rem;
             padding: 12px 25px;
           }
-          #floating-logo {
-            width: 300px;
-            height: 300px;
-          }
         }
       `}</style>
-
-      <div
-        id="floating-logo"
-        ref={logoRef}
-        onMouseMove={handleLogoInteraction}
-        onMouseLeave={resetLogoPosition}
-      ></div>
 
       {!selectedStore ? (
         <div className="text-center relative z-10 w-full max-w-md" style={{ animation: 'fadeIn 1.5s forwards' }}>

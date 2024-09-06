@@ -6,15 +6,83 @@ import { Button } from "@/components/ui/button";
 const Index = () => {
   const [selectedStore, setSelectedStore] = useState(null);
   const logoRef = useRef(null);
+  const canvasRef = useRef(null);
 
   useEffect(() => {
-    document.body.style.backgroundColor = '#232323';
+    document.body.style.backgroundColor = '#000000';
     document.body.style.color = 'white';
     document.body.style.fontFamily = 'Roboto, Arial, sans-serif';
     return () => {
       document.body.style.backgroundColor = '';
       document.body.style.color = '';
       document.body.style.fontFamily = '';
+    };
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const stars = [];
+    for (let i = 0; i < 100; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2,
+        speed: Math.random() * 3 + 1
+      });
+    }
+
+    const shootingStars = [];
+    const createShootingStar = () => {
+      shootingStars.push({
+        x: Math.random() * canvas.width,
+        y: 0,
+        length: Math.random() * 80 + 10,
+        speed: Math.random() * 10 + 5,
+        size: Math.random() * 2 + 1
+      });
+    };
+
+    setInterval(createShootingStar, 3000);
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+
+      stars.forEach(star => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
+        star.y += star.speed;
+        if (star.y > canvas.height) star.y = 0;
+      });
+
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      shootingStars.forEach((star, index) => {
+        ctx.beginPath();
+        ctx.moveTo(star.x, star.y);
+        ctx.lineTo(star.x + star.length, star.y + star.length);
+        ctx.lineWidth = star.size;
+        ctx.stroke();
+        star.x += star.speed;
+        star.y += star.speed;
+        if (star.x > canvas.width || star.y > canvas.height) {
+          shootingStars.splice(index, 1);
+        }
+      });
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
@@ -64,7 +132,8 @@ Email: info@kambogrow.com`;
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-4 py-8 bg-[#232323] text-white">
+    <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-4 py-8 bg-black text-white">
+      <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" style={{ zIndex: 0 }}></canvas>
       <style jsx>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(20px); }
@@ -72,7 +141,7 @@ Email: info@kambogrow.com`;
         }
         .store-button, .social-button {
           text-decoration: none;
-          color: #232323;
+          color: #000000;
           padding: 10px 20px;
           margin: 5px;
           display: inline-flex;
@@ -112,7 +181,7 @@ Email: info@kambogrow.com`;
           opacity: 0.15;
           transition: transform 0.3s ease-out;
           cursor: pointer;
-          z-index: -1;
+          z-index: 1;
         }
         @media (min-width: 640px) {
           .store-button, .social-button {
@@ -137,7 +206,7 @@ Email: info@kambogrow.com`;
         <div className="text-center relative z-10 w-full max-w-md" style={{ animation: 'fadeIn 1.5s forwards' }}>
           <h1 className="text-2xl sm:text-4xl mb-6 sm:mb-8 font-bold text-shadow">Kambo Grow & Smart Shop 🐸</h1>
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <Button className="store-button w-full sm:w-48 bg-[#4CAF50] text-[#232323] hover:bg-[#45a049]" onClick={() => handleStoreSelect('main')}>
+            <Button className="store-button w-full sm:w-48 bg-[#4CAF50] text-[#000000] hover:bg-[#45a049]" onClick={() => handleStoreSelect('main')}>
               Explorar Tienda
             </Button>
           </div>
@@ -153,31 +222,31 @@ Email: info@kambogrow.com`;
               Teléfono: +1 234 567 890<br />
               Email: info@kambogrow.com
             </p>
-            <Button className="social-button mt-4 w-full text-xs sm:text-base bg-[#4CAF50] text-[#232323] hover:bg-[#45a049]" onClick={handleCopyToClipboard}>
+            <Button className="social-button mt-4 w-full text-xs sm:text-base bg-[#4CAF50] text-[#000000] hover:bg-[#45a049]" onClick={handleCopyToClipboard}>
               Copiar datos de contacto
             </Button>
           </div>
           <div className="flex flex-wrap justify-center items-center gap-2 mb-6">
             <Button 
-              className="social-button text-xs sm:text-base bg-[#4CAF50] text-[#232323] hover:bg-[#45a049]"
+              className="social-button text-xs sm:text-base bg-[#4CAF50] text-[#000000] hover:bg-[#45a049]"
               onClick={() => window.open('https://wa.link/ud24fn', '_blank')}
             >
               <Phone className="mr-2" /> WhatsApp
             </Button>
             <Button 
-              className="social-button text-xs sm:text-base bg-[#4CAF50] text-[#232323] hover:bg-[#45a049]"
+              className="social-button text-xs sm:text-base bg-[#4CAF50] text-[#000000] hover:bg-[#45a049]"
               onClick={() => window.open('https://www.instagram.com/kambogrow/', '_blank')}
             >
               <Instagram className="mr-2" /> Instagram 🐸
             </Button>
             <Button
-              className="social-button text-xs sm:text-base bg-[#4CAF50] text-[#232323] hover:bg-[#45a049]"
+              className="social-button text-xs sm:text-base bg-[#4CAF50] text-[#000000] hover:bg-[#45a049]"
               onClick={() => toast.info("Lun - Sáb: 10:30 - 19:30\nDomingo: Cerrado")}
             >
               <Clock className="mr-2" /> Horarios
             </Button>
             <Button
-              className="social-button text-xs sm:text-base bg-[#4CAF50] text-[#232323] hover:bg-[#45a049]"
+              className="social-button text-xs sm:text-base bg-[#4CAF50] text-[#000000] hover:bg-[#45a049]"
               onClick={() => window.open('https://www.google.com/maps?client=opera-gx&hs=TwT&sca_esv=b3b81d1d30ec7baa&output=search&q=kambo+grow+shop+ubicación&source=lnms&fbs=AEQNm0CbCVgAZ5mWEJDg6aoPVcBgy3z6G8XHXm5Ah4uwilWjRJeyTIczQNFLgz4BekoSgG4R3EvpFPQySx_mlSkGosXzKPW74IKUGm4uFRYtXAdKcveLTkbZEWxoccbKczIixf_JENIYySqOJN3OdO5W224NpPgzE0sbSu77tk65G6QsVN19Sl9-S3fQR2rf18N-vCozZtQ4ZKotfmVOyQm11cU_PfYXow&entry=mc&ved=1t:200715&ictx=111', '_blank')}
             >
               <MapPin className="mr-2" /> Ubicación
@@ -187,7 +256,7 @@ Email: info@kambogrow.com`;
       )}
 
       <Button
-        className="absolute top-4 right-4 bg-[#4CAF50] text-[#232323] hover:bg-[#45a049] px-2 py-1 sm:px-4 sm:py-2 rounded-full transition-all z-20 text-xs sm:text-base"
+        className="absolute top-4 right-4 bg-[#4CAF50] text-[#000000] hover:bg-[#45a049] px-2 py-1 sm:px-4 sm:py-2 rounded-full transition-all z-20 text-xs sm:text-base"
         onClick={() => setSelectedStore(null)}
       >
         Volver al Inicio

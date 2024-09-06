@@ -1,97 +1,195 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { toast } from 'sonner';
 import { Instagram, MapPin, Clock, Phone } from 'lucide-react';
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
+  const [selectedStore, setSelectedStore] = useState(null);
+  const logoRef = useRef(null);
+
+  useEffect(() => {
+    document.body.style.backgroundColor = '#232323';
+    document.body.style.color = 'white';
+    document.body.style.fontFamily = 'Roboto, Arial, sans-serif';
+    return () => {
+      document.body.style.backgroundColor = '';
+      document.body.style.color = '';
+      document.body.style.fontFamily = '';
+    };
+  }, []);
+
+  const handleStoreSelect = (store) => {
+    setSelectedStore(store);
+  };
+
+  const handleCopyToClipboard = () => {
+    const text = `Kambo Grow & Smart Shop
+Dirección: 123 Calle Principal, Ciudad, País
+Horarios: Lun - Sáb: 10:00 - 20:00
+Teléfono: +1 234 567 890
+Email: info@kambogrow.com`;
+    navigator.clipboard.writeText(text).then(() => {
+      toast.success('Datos copiados al portapapeles');
+    });
+  };
+
+  const [oscillationSpeed, setOscillationSpeed] = useState(1);
+
+  useEffect(() => {
+    const animateLogo = () => {
+      if (logoRef.current) {
+        const time = Date.now() * 0.001 * oscillationSpeed;
+        const yOffset = Math.sin(time) * 5;
+        logoRef.current.style.transform = `translate(-50%, -50%) translateY(${yOffset}px)`;
+      }
+      requestAnimationFrame(animateLogo);
+    };
+    const animationFrame = requestAnimationFrame(animateLogo);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [oscillationSpeed]);
+
+  const handleLogoInteraction = (e) => {
+    if (!logoRef.current) return;
+    
+    const logo = logoRef.current;
+    const rect = logo.getBoundingClientRect();
+    const y = e.clientY - rect.top;
+    
+    const newSpeed = 1 + Math.abs((y / rect.height - 0.5) * 2);
+    setOscillationSpeed(newSpeed);
+  };
+
+  const resetLogoPosition = () => {
+    setOscillationSpeed(1);
+  };
+
   return (
-    <div className="min-h-screen bg-[#232323] text-white font-sans">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 bg-[#232323] shadow-md z-50">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <img src="https://ozeta.cl/wp-content/sabai/File/files/l_556ef36bb393009069eb500ba3087112.png" alt="Kambo Grow & Smart Shop" className="h-12" />
-          <nav>
-            <ul className="flex space-x-6">
-              <li><a href="#home" className="hover:text-[#ffca28] transition-colors">Inicio</a></li>
-              <li><a href="#services" className="hover:text-[#ffca28] transition-colors">Servicios</a></li>
-              <li><a href="#contact" className="hover:text-[#ffca28] transition-colors">Contacto</a></li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+    <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-4 py-8 bg-[#232323] text-white">
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .store-button, .social-button {
+          text-decoration: none;
+          color: #232323;
+          padding: 10px 20px;
+          margin: 5px;
+          display: inline-block;
+          border-radius: 25px;
+          font-weight: bold;
+          text-transform: uppercase;
+          background-color: #ffca28;
+          border: 2px solid #ffca28;
+          box-shadow: 0 0 15px rgba(255, 202, 40, 0.3);
+          transition: all 0.2s ease;
+          font-size: 0.8rem;
+        }
+        .store-button {
+          width: 100%;
+        }
+        .store-button:hover, .social-button:hover {
+          background-color: #ffd54f;
+          box-shadow: 0 0 20px rgba(255, 202, 40, 0.5);
+        }
+        .store-button:active, .social-button:active {
+          transform: scale(0.98);
+          background-color: #ffca28;
+        }
+        #floating-logo {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 150px;
+          height: 150px;
+          background-image: url('https://ozeta.cl/wp-content/sabai/File/files/l_556ef36bb393009069eb500ba3087112.png');
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+          opacity: 0.15;
+          transition: transform 0.3s ease-out;
+          cursor: pointer;
+          z-index: -1;
+        }
+        @media (min-width: 640px) {
+          .store-button, .social-button {
+            font-size: 1rem;
+            padding: 12px 25px;
+          }
+          #floating-logo {
+            width: 300px;
+            height: 300px;
+          }
+        }
+      `}</style>
 
-      {/* Hero Section */}
-      <section id="home" className="pt-24 pb-12 px-4 bg-gradient-to-b from-[#232323] to-[#2c2c2c]">
-        <div className="container mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">Kambo Grow & Smart Shop 🐸</h1>
-          <p className="text-xl mb-8">Tu tienda especializada en cultivo y productos inteligentes</p>
-          <Button className="bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f] transition-colors">
-            Explora nuestros productos
-          </Button>
-        </div>
-      </section>
+      <div
+        id="floating-logo"
+        ref={logoRef}
+        onMouseMove={handleLogoInteraction}
+        onMouseLeave={resetLogoPosition}
+      ></div>
 
-      {/* Services Section */}
-      <section id="services" className="py-12 px-4 bg-[#2c2c2c]">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold mb-8 text-center">Nuestros Servicios</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-[#333333] p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-semibold mb-4">Productos para Cultivo</h3>
-              <p>Ofrecemos una amplia gama de productos para el cultivo, desde semillas hasta equipos especializados.</p>
-            </div>
-            <div className="bg-[#333333] p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-semibold mb-4">Smart Shop</h3>
-              <p>Descubre nuestra selección de productos inteligentes y accesorios innovadores para tu estilo de vida.</p>
-            </div>
+      {!selectedStore ? (
+        <div className="text-center relative z-10 w-full max-w-md" style={{ animation: 'fadeIn 1.5s forwards' }}>
+          <h1 className="text-2xl sm:text-4xl mb-6 sm:mb-8 font-bold text-shadow">Kambo Grow & Smart Shop 🐸</h1>
+          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <Button className="store-button w-full sm:w-48 bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f]" onClick={() => handleStoreSelect('main')}>
+              Explorar Tienda
+            </Button>
           </div>
         </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-12 px-4 bg-[#232323]">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold mb-8 text-center">Contáctanos</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <div className="flex items-center mb-4">
-                <MapPin className="mr-2 text-[#ffca28]" />
-                <p>123 Calle Principal, Ciudad, País</p>
-              </div>
-              <div className="flex items-center mb-4">
-                <Clock className="mr-2 text-[#ffca28]" />
-                <p>Lun - Sáb: 10:00 - 20:00</p>
-              </div>
-              <div className="flex items-center mb-4">
-                <Phone className="mr-2 text-[#ffca28]" />
-                <p>+1 234 567 890</p>
-              </div>
-              <Button 
-                className="bg-[#25D366] text-white hover:bg-[#128C7E] transition-colors mt-4"
-                onClick={() => window.open('https://wa.link/ud24fn', '_blank')}
-              >
-                Contáctanos por WhatsApp
-              </Button>
-            </div>
-            <div className="bg-[#333333] p-6 rounded-lg shadow-lg">
-              {/* Aquí puedes agregar un formulario de contacto si lo deseas */}
-              <p className="text-center">¡Visítanos en nuestra tienda!</p>
-            </div>
+      ) : (
+        <div className="text-center w-full max-w-md p-4 relative z-10" style={{ animation: 'fadeIn 1.5s forwards' }}>
+          <h2 className="text-xl sm:text-3xl mb-4 sm:mb-6 font-bold">Kambo Grow & Smart Shop 🐸</h2>
+          <div className="mb-6 text-left">
+            <h3 className="text-lg sm:text-xl mb-3 sm:mb-4 font-semibold">Información de Contacto</h3>
+            <p className="text-xs sm:text-base whitespace-pre-line">
+              Dirección: 123 Calle Principal, Ciudad, País<br />
+              Horarios: Lun - Sáb: 10:00 - 20:00<br />
+              Teléfono: +1 234 567 890<br />
+              Email: info@kambogrow.com
+            </p>
+            <Button className="social-button mt-4 w-full text-xs sm:text-base bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f]" onClick={handleCopyToClipboard}>
+              Copiar datos de contacto
+            </Button>
+          </div>
+          <div className="flex flex-wrap justify-center items-center gap-2 mb-6">
+            <Button 
+              className="social-button text-xs sm:text-base bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f]"
+              onClick={() => window.open('https://wa.link/ud24fn', '_blank')}
+            >
+              <Phone className="mr-2" /> WhatsApp
+            </Button>
+            <Button 
+              className="social-button text-xs sm:text-base bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f]"
+              onClick={() => window.open('https://instagram.com', '_blank')}
+            >
+              <Instagram className="mr-2" /> Instagram 🐸
+            </Button>
+            <Button
+              className="social-button text-xs sm:text-base bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f]"
+              onClick={() => toast.info("Lun - Sáb: 10:00 - 20:00\nDomingo: Cerrado")}
+            >
+              <Clock className="mr-2" /> Horarios
+            </Button>
+            <Button
+              className="social-button text-xs sm:text-base bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f]"
+              onClick={() => window.open('https://maps.google.com', '_blank')}
+            >
+              <MapPin className="mr-2" /> Ubicación
+            </Button>
           </div>
         </div>
-      </section>
+      )}
 
-      {/* Footer */}
-      <footer className="bg-[#1c1c1c] py-8 px-4">
-        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-          <p>&copy; 2024 Kambo Grow & Smart Shop. Todos los derechos reservados.</p>
-          <div className="flex space-x-4 mt-4 md:mt-0">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-[#ffca28] hover:text-white transition-colors">
-              <Instagram />
-            </a>
-            {/* Agrega más iconos de redes sociales aquí si es necesario */}
-          </div>
-        </div>
-      </footer>
+      <Button
+        className="absolute top-4 right-4 bg-[#ffca28] text-[#232323] hover:bg-[#ffd54f] px-2 py-1 sm:px-4 sm:py-2 rounded-full transition-all z-20 text-xs sm:text-base"
+        onClick={() => setSelectedStore(null)}
+      >
+        Volver al Inicio
+      </Button>
     </div>
   );
 };

@@ -88,7 +88,7 @@ Email: info@kambogrow.com`;
 
       {!selectedStore ? (
         <div className="text-center relative z-10 w-full max-w-md" style={{ animation: 'fadeIn 1.5s forwards' }}>
-          <img src="https://i.imgur.com/Oa3kNHU.png" alt="Kambo Logo" className="w-64 h-auto mx-auto mb-4 neon-logo" />
+          <img src="https://imgur.com/191Se2z" alt="Kambo Logo" className="w-64 h-auto mx-auto mb-4 neon-logo" />
           <h1 className="text-2xl sm:text-4xl mb-6 sm:mb-8 font-bold text-shadow">Kambo Grow & Smart Shop 🐸</h1>
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
             <Button className="store-button w-full sm:w-48 bg-[#4CAF50] text-[#000000] hover:bg-[#45a049]" onClick={() => handleStoreSelect('main')}>
@@ -98,7 +98,7 @@ Email: info@kambogrow.com`;
         </div>
       ) : (
         <div className="text-center w-full max-w-md p-4 relative z-10" style={{ animation: 'fadeIn 1.5s forwards' }}>
-          <img src="https://i.imgur.com/Oa3kNHU.png" alt="Kambo Logo" className="w-48 h-auto mx-auto mb-4 neon-logo" />
+          <img src="https://imgur.com/IZJhTNZ" alt="Kambo Logo" className="w-48 h-auto mx-auto mb-4 neon-logo" />
           <h2 className="text-xl sm:text-3xl mb-4 sm:mb-6 font-bold">Kambo Grow & Smart Shop 🐸</h2>
           <div className="mb-6 text-left">
             <h3 className="text-lg sm:text-xl mb-3 sm:mb-4 font-semibold">Información de Contacto</h3>

@@ -24,11 +24,13 @@ const Index = () => {
   };
 
   const handleCopyToClipboard = () => {
-    const text = `Kambo Grow & Smart Shop
-Dirección: 123 Calle Principal, Ciudad, País
-Horarios: Lun - Sáb: 10:30 - 19:30, Dom: Cerrado
-Teléfono: +1 234 567 890
-Email: info@kambogrow.com`;
+    const text = `
+Kambo Grow\n
+77.239.704-6\n
+              Cuenta Corriente\n
+              87315568\n
+              Banco Santander\n
+              contacto@kambogrow.com`;
     navigator.clipboard.writeText(text).then(() => {
       toast.success('Datos copiados al portapapeles');
     });
@@ -101,12 +103,13 @@ Email: info@kambogrow.com`;
           <img src="kambo.png" alt="Kambo Logo" className="w-48 h-auto mx-auto mb-4 neon-logo" />
           <h2 className="text-xl sm:text-3xl mb-4 sm:mb-6 font-bold">Kambo Grow & Smart Shop 🐸</h2>
           <div className="mb-6 text-left">
-            <h3 className="text-lg sm:text-xl mb-3 sm:mb-4 font-semibold">Información de Contacto</h3>
+            <h3 className="text-lg sm:text-xl mb-3 sm:mb-4 font-semibold">Información de Transferencia</h3>
             <p className="text-xs sm:text-base whitespace-pre-line">
-              Dirección: 123 Calle Principal, Ciudad, País<br />
-              Horarios: Lun - Sáb: 10:30 - 19:30, Dom: Cerrado<br />
-              Teléfono: +1 234 567 890<br />
-              Email: info@kambogrow.com
+              Rut: 77.239.704-6<br />
+              Banco: Banco Santander<br />
+              Tipo de cuenta: Cuenta corriente<br />
+              Numero de cuenta: 87315568<br />
+              Email: contacto@kambogrow.com
             </p>
             <Button className="social-button mt-4 w-full text-xs sm:text-base bg-[#4CAF50] text-[#000000] hover:bg-[#45a049]" onClick={handleCopyToClipboard}>
               Copiar datos de contacto

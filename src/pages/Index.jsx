@@ -88,7 +88,7 @@ Email: info@kambogrow.com`;
 
       {!selectedStore ? (
         <div className="text-center relative z-10 w-full max-w-md" style={{ animation: 'fadeIn 1.5s forwards' }}>
-          <img src="https://imgur.com/DeZOYxV" alt="Kambo Logo" className="w-64 h-auto mx-auto mb-4 neon-logo" />
+          <img src="https://imgur.com/DeZOYxV" alt="Kambo Logoo" className="w-64 h-auto mx-auto mb-4 neon-logo" />
           <h1 className="text-2xl sm:text-4xl mb-6 sm:mb-8 font-bold text-shadow">Kambo Grow & Smart Shop 🐸</h1>
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
             <Button className="store-button w-full sm:w-48 bg-[#4CAF50] text-[#000000] hover:bg-[#45a049]" onClick={() => handleStoreSelect('main')}>

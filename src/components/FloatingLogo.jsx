@@ -45,14 +45,15 @@ const FloatingLogo = () => {
         transform: 'translate(-50%, -50%)',
         width: '150px',
         height: '150px',
-        backgroundImage: 'url("https://ozeta.cl/wp-content/sabai/File/files/l_556ef36bb393009069eb500ba3087112.png")',
+        backgroundImage: 'url("https://imgur.com/IZJhTNZ")',
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         opacity: '0.15',
         transition: 'transform 0.3s ease-out',
         cursor: 'pointer',
-        zIndex: 1
+        zIndex: 1,
+        animation: 'neonGlow 2s ease-in-out infinite'
       }}
     />
   );

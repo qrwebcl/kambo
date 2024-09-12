@@ -43,6 +43,13 @@ Email: info@kambogrow.com`;
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes neonGlow {
+          0%, 100% { filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 4px #fff) drop-shadow(0 0 6px #0ff); }
+          50% { filter: drop-shadow(0 0 3px #fff) drop-shadow(0 0 6px #fff) drop-shadow(0 0 9px #0ff); }
+        }
+        .neon-logo {
+          animation: neonGlow 2s ease-in-out infinite;
+        }
         .store-button, .social-button {
           text-decoration: none;
           color: #000000;
@@ -81,6 +88,7 @@ Email: info@kambogrow.com`;
 
       {!selectedStore ? (
         <div className="text-center relative z-10 w-full max-w-md" style={{ animation: 'fadeIn 1.5s forwards' }}>
+          <img src="https://imgur.com/191Se2z" alt="Kambo Logo" className="w-32 h-32 mx-auto mb-4 neon-logo" />
           <h1 className="text-2xl sm:text-4xl mb-6 sm:mb-8 font-bold text-shadow">Kambo Grow & Smart Shop 🐸</h1>
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
             <Button className="store-button w-full sm:w-48 bg-[#4CAF50] text-[#000000] hover:bg-[#45a049]" onClick={() => handleStoreSelect('main')}>
@@ -90,6 +98,7 @@ Email: info@kambogrow.com`;
         </div>
       ) : (
         <div className="text-center w-full max-w-md p-4 relative z-10" style={{ animation: 'fadeIn 1.5s forwards' }}>
+          <img src="https://imgur.com/191Se2z" alt="Kambo Logo" className="w-24 h-24 mx-auto mb-4 neon-logo" />
           <h2 className="text-xl sm:text-3xl mb-4 sm:mb-6 font-bold">Kambo Grow & Smart Shop 🐸</h2>
           <div className="mb-6 text-left">
             <h3 className="text-lg sm:text-xl mb-3 sm:mb-4 font-semibold">Información de Contacto</h3>

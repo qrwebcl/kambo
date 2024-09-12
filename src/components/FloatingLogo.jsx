@@ -26,7 +26,7 @@ const FloatingLogo = () => {
         transform: 'translate(-50%, -50%)',
         width: '200px',
         height: '200px',
-        backgroundImage: 'url("https://i.imgur.com/191Se2z.png")',
+        backgroundImage: 'letras.png',
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

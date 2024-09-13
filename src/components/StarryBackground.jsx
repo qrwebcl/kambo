@@ -24,8 +24,11 @@ const StarryBackground = () => {
       size: Math.random() * 1.5 + 0.5,
       speed: Math.random() * 0.2 + 0.1,
       velocityX: 0,
-      velocityY: 0
+      velocityY: 0,
+      trail: []
     }));
+
+    const shootingStars = [];
 
     const handleMouseMove = (e) => {
       if (!isUsingGyroscope) {
@@ -95,11 +98,26 @@ const StarryBackground = () => {
       requestMotionPermission();
     }
 
+    const createShootingStar = () => {
+      if (Math.random() < 0.002) { // Adjust probability for rarity
+        shootingStars.push({
+          x: Math.random() * canvas.width,
+          y: 0,
+          length: Math.random() * 80 + 20,
+          speed: Math.random() * 10 + 5,
+          velocityX: 0,
+          velocityY: 0
+        });
+      }
+    };
+
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
 
       shakeIntensity *= 0.95;
+
+      createShootingStar();
 
       stars.forEach(star => {
         const targetVelocityX = star.speed * mouseX + (Math.random() - 0.5) * shakeIntensity * 10;
@@ -116,18 +134,47 @@ const StarryBackground = () => {
         if (star.y > canvas.height) star.y = 0;
         if (star.y < 0) star.y = canvas.height;
 
-        const glowIntensity = Math.min(Math.abs(star.velocityX) + Math.abs(star.velocityY), 2);
-        const glow = glowIntensity * 10;
+        // Add current position to trail
+        star.trail.push({ x: star.x, y: star.y });
+        if (star.trail.length > 5) star.trail.shift();
 
+        // Draw trail
         ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size + glow, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${0.1 * glowIntensity})`;
+        star.trail.forEach((point, index) => {
+          const alpha = index / star.trail.length;
+          ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.5})`;
+          ctx.rect(point.x, point.y, 1, 1);
+        });
         ctx.fill();
 
+        // Draw star
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
         ctx.fill();
+      });
+
+      // Animate and draw shooting stars
+      shootingStars.forEach((shootingStar, index) => {
+        const targetVelocityX = shootingStar.speed * mouseX;
+        const targetVelocityY = shootingStar.speed * (1 + mouseY);
+
+        shootingStar.velocityX += (targetVelocityX - shootingStar.velocityX) * 0.1;
+        shootingStar.velocityY += (targetVelocityY - shootingStar.velocityY) * 0.1;
+
+        shootingStar.x += shootingStar.velocityX;
+        shootingStar.y += shootingStar.velocityY;
+
+        ctx.beginPath();
+        ctx.moveTo(shootingStar.x, shootingStar.y);
+        ctx.lineTo(shootingStar.x - shootingStar.velocityX * 5, shootingStar.y - shootingStar.velocityY * 5);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        if (shootingStar.y > canvas.height) {
+          shootingStars.splice(index, 1);
+        }
       });
 
       animationFrameId = requestAnimationFrame(animate);

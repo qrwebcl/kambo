@@ -103,7 +103,7 @@ Kambo Grow\n
       ) : (
         <div className="text-center w-full max-w-md p-4 relative z-10" style={{ animation: 'fadeIn 1.5s forwards' }}>
           <div className="relative mb-2">
-            <img src="https://imgur.com/JX2R9en.png" alt="Kambo Logo" className="w-50 h-auto mx-auto neon-logo" style={{ filter: 'drop-shadow(0 0 3px rgba(127, 255, 0, 0.7))' }} />
+            <img src="https://imgur.com/JX2R9en.png" alt="Kambo Logo" className="w-20 h-auto mx-auto neon-logo" style={{ filter: 'drop-shadow(0 0 3px rgba(127, 255, 0, 0.7))' }} />
           </div>
           <h2 className="text-xl sm:text-3xl mb-4 sm:mb-6 font-bold relative z-10">Kambo Grow & Smart Shop 🐸</h2>
           <div className="mb-6 text-left">

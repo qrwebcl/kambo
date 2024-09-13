@@ -11,6 +11,7 @@ const StarryBackground = () => {
     let mouseY = 0;
     let shakeIntensity = 0;
     let lastShakeTime = 0;
+    let isUsingGyroscope = false;
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -25,8 +26,18 @@ const StarryBackground = () => {
     }));
 
     const handleMouseMove = (e) => {
-      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+      if (!isUsingGyroscope) {
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+      }
+    };
+
+    const handleDeviceOrientation = (e) => {
+      if (e.gamma && e.beta) {
+        isUsingGyroscope = true;
+        mouseX = (e.gamma / 45) * 2; // Normalize to [-2, 2] range
+        mouseY = (e.beta / 45) * 2;
+      }
     };
 
     const handleDeviceMotion = (e) => {
@@ -48,12 +59,15 @@ const StarryBackground = () => {
           }
         }
         
-        mouseX = (accelerationIncludingGravity.x / 10) * 2;
-        mouseY = (accelerationIncludingGravity.y / 10) * 2;
+        if (!isUsingGyroscope) {
+          mouseX = (accelerationIncludingGravity.x / 10) * 2;
+          mouseY = (accelerationIncludingGravity.y / 10) * 2;
+        }
       }
     };
 
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('deviceorientation', handleDeviceOrientation);
     window.addEventListener('devicemotion', handleDeviceMotion);
 
     const animate = () => {
@@ -106,6 +120,7 @@ const StarryBackground = () => {
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('deviceorientation', handleDeviceOrientation);
       window.removeEventListener('devicemotion', handleDeviceMotion);
       window.removeEventListener('resize', handleResize);
     };

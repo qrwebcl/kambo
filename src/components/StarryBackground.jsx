@@ -1,7 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Button } from "@/components/ui/button";
 
 const StarryBackground = () => {
   const canvasRef = useRef(null);
+  const [permissionGranted, setPermissionGranted] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -66,9 +68,32 @@ const StarryBackground = () => {
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('deviceorientation', handleDeviceOrientation);
-    window.addEventListener('devicemotion', handleDeviceMotion);
+    const requestMotionPermission = () => {
+      if (typeof DeviceMotionEvent.requestPermission === 'function') {
+        DeviceMotionEvent.requestPermission()
+          .then(permissionState => {
+            if (permissionState === 'granted') {
+              setPermissionGranted(true);
+              window.addEventListener('devicemotion', handleDeviceMotion);
+              window.addEventListener('deviceorientation', handleDeviceOrientation);
+            }
+          })
+          .catch(console.error);
+      } else {
+        // For non-iOS 13+ devices, assume permission is granted
+        setPermissionGranted(true);
+        window.addEventListener('devicemotion', handleDeviceMotion);
+        window.addEventListener('deviceorientation', handleDeviceOrientation);
+      }
+    };
+
+    if (permissionGranted) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('devicemotion', handleDeviceMotion);
+      window.addEventListener('deviceorientation', handleDeviceOrientation);
+    } else {
+      requestMotionPermission();
+    }
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -124,9 +149,35 @@ const StarryBackground = () => {
       window.removeEventListener('devicemotion', handleDeviceMotion);
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [permissionGranted]);
 
-  return <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" style={{ zIndex: 0 }} />;
+  const requestPermission = () => {
+    if (typeof DeviceMotionEvent.requestPermission === 'function') {
+      DeviceMotionEvent.requestPermission()
+        .then(permissionState => {
+          if (permissionState === 'granted') {
+            setPermissionGranted(true);
+          }
+        })
+        .catch(console.error);
+    } else {
+      // For non-iOS 13+ devices, assume permission is granted
+      setPermissionGranted(true);
+    }
+  };
+
+  return (
+    <>
+      <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" style={{ zIndex: 0 }} />
+      {!permissionGranted && (
+        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <Button onClick={requestPermission} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+            Activar experiencia inmersiva
+          </Button>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default StarryBackground;

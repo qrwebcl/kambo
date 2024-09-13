@@ -24,16 +24,16 @@ const FloatingLogo = () => {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: '200px',
-        height: '200px',
+        width: '300px',
+        height: '300px',
         backgroundImage: 'url("https://imgur.com/DeZOYxV.png")',
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        opacity: '0.15',
+        opacity: '0.3',
         transition: 'transform 0.3s ease-out',
         zIndex: 1,
-        animation: 'neonGlow 2s ease-in-out infinite'
+        filter: 'drop-shadow(0 0 5px rgba(127, 255, 0, 0.5))',
       }}
     />
   );

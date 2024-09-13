@@ -46,8 +46,8 @@ Kambo Grow\n
           to { opacity: 1; transform: translateY(0); }
         }
         @keyframes neonGlow {
-          0%, 100% { filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 4px #fff) drop-shadow(0 0 6px #0ff); }
-          50% { filter: drop-shadow(0 0 3px #fff) drop-shadow(0 0 6px #fff) drop-shadow(0 0 9px #0ff); }
+          0%, 100% { filter: drop-shadow(0 0 1px #7fff00) drop-shadow(0 0 2px #7fff00); }
+          50% { filter: drop-shadow(0 0 2px #7fff00) drop-shadow(0 0 3px #7fff00); }
         }
         .neon-logo {
           animation: neonGlow 2s ease-in-out infinite;
@@ -90,8 +90,10 @@ Kambo Grow\n
 
       {!selectedStore ? (
         <div className="text-center relative z-10 w-full max-w-md" style={{ animation: 'fadeIn 1.5s forwards' }}>
-          <img src="https://imgur.com/JX2R9en.png" alt="Kambo Logo" className="w-64 h-auto mx-auto mb-4 neon-logo" />
-          <h1 className="text-2xl sm:text-4xl mb-6 sm:mb-8 font-bold text-shadow">Kambo Grow & Smart Shop 🐸</h1>
+          <div className="relative mb-2">
+            <img src="https://imgur.com/JX2R9en.png" alt="Kambo Logo" className="w-48 h-auto mx-auto neon-logo" />
+          </div>
+          <h1 className="text-2xl sm:text-4xl mb-6 sm:mb-8 font-bold text-shadow relative z-10">Kambo Grow & Smart Shop 🐸</h1>
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
             <Button className="store-button w-full sm:w-48 bg-[#4CAF50] text-[#000000] hover:bg-[#45a049]" onClick={() => handleStoreSelect('main')}>
               Explorar Tienda
@@ -100,8 +102,10 @@ Kambo Grow\n
         </div>
       ) : (
         <div className="text-center w-full max-w-md p-4 relative z-10" style={{ animation: 'fadeIn 1.5s forwards' }}>
-          <img src="https://imgur.com/JX2R9en.png" alt="Kambo Logo" className="w-48 h-auto mx-auto mb-4 neon-logo" />
-          <h2 className="text-xl sm:text-3xl mb-4 sm:mb-6 font-bold">Kambo Grow & Smart Shop 🐸</h2>
+          <div className="relative mb-2">
+            <img src="https://imgur.com/JX2R9en.png" alt="Kambo Logo" className="w-36 h-auto mx-auto neon-logo" />
+          </div>
+          <h2 className="text-xl sm:text-3xl mb-4 sm:mb-6 font-bold relative z-10">Kambo Grow & Smart Shop 🐸</h2>
           <div className="mb-6 text-left">
             <h3 className="text-lg sm:text-xl mb-3 sm:mb-4 font-semibold">Información de Transferencia</h3>
             <p className="text-xs sm:text-base whitespace-pre-line">

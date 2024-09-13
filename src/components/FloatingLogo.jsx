@@ -8,7 +8,7 @@ const FloatingLogo = () => {
       if (logoRef.current) {
         const time = Date.now() * 0.001;
         const yOffset = Math.sin(time) * 5;
-        logoRef.current.style.transform = `translate(-50%, -50%) translateY(${yOffset}px)`;
+        logoRef.current.style.transform = `translate(-50%, -40%) translateY(${yOffset}px)`;
       }
       requestAnimationFrame(animateLogo);
     };
@@ -21,19 +21,19 @@ const FloatingLogo = () => {
       ref={logoRef}
       style={{
         position: 'absolute',
-        top: '50%',
+        top: '60%',
         left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '300px',
-        height: '300px',
+        transform: 'translate(-50%, -40%)',
+        width: '250px',
+        height: '250px',
         backgroundImage: 'url("https://imgur.com/DeZOYxV.png")',
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        opacity: '0.3',
+        opacity: '0.4',
         transition: 'transform 0.3s ease-out',
         zIndex: 1,
-        filter: 'drop-shadow(0 0 5px rgba(127, 255, 0, 0.5))',
+        filter: 'drop-shadow(0 0 8px rgba(127, 255, 0, 0.7))',
       }}
     />
   );

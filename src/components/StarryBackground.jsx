@@ -24,7 +24,8 @@ const StarryBackground = () => {
       size: Math.random() * 1.5 + 0.5,
       speed: Math.random() * 0.2 + 0.1,
       velocityX: 0,
-      velocityY: 0
+      velocityY: 0,
+      trail: []
     }));
 
     const handleMouseMove = (e) => {
@@ -116,14 +117,21 @@ const StarryBackground = () => {
         if (star.y > canvas.height) star.y = 0;
         if (star.y < 0) star.y = canvas.height;
 
-        const glowIntensity = Math.min(Math.abs(star.velocityX) + Math.abs(star.velocityY), 2);
-        const glow = glowIntensity * 10;
+        // Add current position to the trail
+        star.trail.push({ x: star.x, y: star.y });
+        if (star.trail.length > 5) star.trail.shift();
 
+        // Draw trail
         ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size + glow, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${0.1 * glowIntensity})`;
-        ctx.fill();
+        ctx.moveTo(star.trail[0].x, star.trail[0].y);
+        star.trail.forEach((point, index) => {
+          const alpha = index / star.trail.length;
+          ctx.strokeStyle = `rgba(255, 255, 255, ${alpha * 0.3})`;
+          ctx.lineTo(point.x, point.y);
+        });
+        ctx.stroke();
 
+        // Draw star
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';

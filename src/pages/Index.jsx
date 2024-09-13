@@ -118,7 +118,7 @@ Kambo Grow\n
               Email: contacto@kambogrow.com
             </p>
             <Button className="social-button mt-4 w-full text-xs sm:text-base bg-[#4CAF50] text-[#000000] hover:bg-[#45a049]" onClick={handleCopyToClipboard}>
-              Copiar datos de contacto
+              Copiar datos de transferencia
             </Button>
           </div>
           <div className="flex flex-wrap justify-center items-center gap-2 mb-6">
